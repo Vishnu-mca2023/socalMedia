@@ -134,10 +134,11 @@ const PostCard = ({ post, onDelete, onLike }) => {
           title={isLiked ? 'Unlike' : 'Like'}
         >
           <Heart
-            size={18}
-            fill={isLiked ? '#9333EA' : 'none'}
-            stroke={isLiked ? '#9333EA' : 'currentColor'}
-          />
+  size={18}
+  fill={isLiked ? '#EF4444' : 'none'}
+  stroke={isLiked ? '#EF4444' : 'currentColor'}
+/>
+
           {post.likes?.length || 0}
         </button>
 
