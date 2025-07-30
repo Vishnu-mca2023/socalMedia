@@ -67,7 +67,7 @@ const PostCard = ({ post, onDelete, onLike }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg hover:shadow-xl border border-purple-100 p-5 mb-6 transition-all">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl border border-purple-100 dark:border-gray-700 p-5 mb-6 transition-all">
       {/* Post Header */}
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-3">
@@ -85,11 +85,11 @@ const PostCard = ({ post, onDelete, onLike }) => {
           <div>
             <Link
               to={`/profile/${post.author._id}`}
-              className="font-semibold text-purple-700 hover:underline"
+              className="font-semibold text-purple-700 dark:text-purple-400 hover:underline"
             >
               {post.author.username}
             </Link>
-            <div className="text-sm text-gray-500">{formatDate(post.createdAt)}</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">{formatDate(post.createdAt)}</div>
           </div>
         </div>
         {user?._id === post.author._id && (
@@ -101,7 +101,7 @@ const PostCard = ({ post, onDelete, onLike }) => {
 
       {/* Post Content */}
       <div className="mb-4">
-        <p className="text-gray-800">{post.content}</p>
+        <p className="text-gray-800 dark:text-white">{post.content}</p>
         {post.media?.length > 0 && (
           <div className="grid gap-3 mt-3">
             {post.media.map((item, idx) => (
@@ -130,7 +130,7 @@ const PostCard = ({ post, onDelete, onLike }) => {
       <div className="flex items-center gap-5 mb-4">
         <button
           onClick={handleLike}
-          className="flex items-center gap-1 text-sm px-2 py-1 rounded-full hover:bg-purple-50 transition"
+          className="flex items-center gap-1 text-sm px-2 py-1 rounded-full hover:bg-purple-50 dark:hover:bg-purple-900 transition"
           title={isLiked ? 'Unlike' : 'Like'}
         >
           <Heart
@@ -143,7 +143,7 @@ const PostCard = ({ post, onDelete, onLike }) => {
 
         <button
           onClick={() => setShowComments(prev => !prev)}
-          className="flex items-center gap-1 text-sm px-2 py-1 rounded-full hover:bg-purple-50 transition"
+          className="flex items-center gap-1 text-sm px-2 py-1 rounded-full hover:bg-purple-50 dark:hover:bg-purple-900 transition"
           title="Comments"
         >
           <MessageCircle size={18} />
@@ -167,11 +167,11 @@ const PostCard = ({ post, onDelete, onLike }) => {
                   {comment.author?.username?.[0]?.toUpperCase() || 'U'}
                 </div>
               )}
-              <div className="bg-purple-50 rounded-md px-3 py-2 w-full">
-                <div className="text-sm font-semibold text-purple-800">
+              <div className="bg-purple-50 dark:bg-gray-700 rounded-md px-3 py-2 w-full">
+                <div className="text-sm font-semibold text-purple-800 dark:text-purple-300">
                   {comment.author.username}
                 </div>
-                <p className="text-sm text-gray-700">{comment.content}</p>
+                <p className="text-sm text-gray-700 dark:text-gray-300">{comment.content}</p>
               </div>
             </div>
           ))}
@@ -184,7 +184,7 @@ const PostCard = ({ post, onDelete, onLike }) => {
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               disabled={loading}
-              className="flex-1 px-3 py-2 text-sm border border-purple-200 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="flex-1 px-3 py-2 text-sm border border-purple-200 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 dark:bg-gray-800 dark:text-white"
             />
             <button
               type="submit"
