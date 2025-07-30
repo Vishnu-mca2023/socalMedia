@@ -1,4 +1,3 @@
-// src/pages/Chat.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useSocket } from '../../contexts/SocketContext';
@@ -224,128 +223,141 @@ const Chat = () => {
     return connected ? '🟢 Connected' : '🔴 Disconnected';
   };
 
-  if (loading) return <div className="flex items-center justify-center h-screen text-lg">Loading...</div>;
+  if (loading) return <div className="flex items-center justify-center h-screen text-lg text-white">Loading...</div>;
+
+  return (
+    <div className="flex h-screen bg-gradient-to-r from-purple-700 via-purple-800 to-purple-900 text-white transition-all">
 
 
-return (
-  <div className="flex h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white transition-all">
-    {/* Left Sidebar */}
-    <aside className="w-full md:w-1/3 lg:w-1/4 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 overflow-y-auto">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Chats</h2>
-        <div className="flex space-x-2">
-          <button onClick={() => setShowUserSearch(true)} className="text-blue-600 hover:text-blue-800 dark:hover:text-blue-400" title="New Chat">
-            <UserPlus size={18} />
-          </button>
-          <button onClick={() => setShowCreateGroup(true)} className="text-green-600 hover:text-green-800 dark:hover:text-green-400" title="New Group">
-            <Users size={18} />
-          </button>
-        </div>
-      </div>
-
-      {showUserSearch && (
-        <div className="mb-4">
-          <div className="flex items-center border rounded px-2 py-1 bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600">
-            <Search className="mr-2 text-gray-400" size={16} />
-            <input
-              value={userSearchQuery}
-              onChange={(e) => {
-                setUserSearchQuery(e.target.value);
-                searchUsers(e.target.value, setUserSearchResults);
-              }}
-              placeholder="Search users..."
-              className="flex-1 bg-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-300 outline-none"
-            />
-            <X onClick={() => setShowUserSearch(false)} className="cursor-pointer text-gray-500 dark:text-gray-300" size={16} />
-          </div>
-          <div className="mt-2 space-y-1">
-            {userSearchResults.map((u) => (
-              <div
-                key={u._id}
-                onClick={() => startDirectChat(u)}
-                className="cursor-pointer px-3 py-1 rounded hover:bg-blue-100 dark:hover:bg-gray-700"
-              >
-                {u.username}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <div>
-        {conversations.map((c) => (
-          <div
-            key={c._id}
-            onClick={() => setActiveConversation(c)}
-            className={`p-3 rounded-md cursor-pointer hover:bg-blue-100 dark:hover:bg-gray-700 ${
-              activeConversation?._id === c._id ? 'bg-blue-200 dark:bg-blue-600 font-semibold' : ''
-            }`}
-          >
-            <div className="text-sm">
-              {c.type === 'group' ? c.name : c._id.username}
-            </div>
-            <div className="text-xs text-gray-500 dark:text-gray-300 truncate">
-              {c.lastMessage?.content || 'No messages'}
-            </div>
-          </div>
-        ))}
-      </div>
-    </aside>
-
-    {/* Main Chat */}
-    <main className="flex-1 flex flex-col bg-gray-50 dark:bg-gray-900 transition-all">
-      {activeConversation ? (
-        <>
-          <header className="px-4 py-2 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-            <h4 className="text-md font-semibold">{activeConversation.type === 'group' ? activeConversation.name : activeConversation._id.username}</h4>
-            <span className="text-sm text-gray-500 dark:text-gray-300">{renderOnlineStatus()}</span>
-          </header>
-
-          <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2">
-            {messages.map((msg) => (
-              <div
-                key={msg._id}
-                className={`max-w-sm p-2 rounded-md ${
-                  msg.sender._id === user._id
-                    ? 'bg-blue-600 text-white ml-auto'
-                    : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white'
-                }`}
-              >
-                {activeConversation.type === 'group' && msg.sender._id !== user._id && (
-                  <div className="text-xs font-bold">{msg.sender.username}</div>
-                )}
-                <div>{msg.content}</div>
-                <div className="text-[10px] mt-1 text-right">{formatTime(msg.createdAt)}</div>
-              </div>
-            ))}
-            {isTyping && <div className="text-sm text-gray-400 italic">Typing...</div>}
-            <div ref={messagesEndRef} />
-          </div>
-
-          <form onSubmit={handleSendMessage} className="flex gap-2 px-4 py-3 border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-            <input
-              value={newMessage}
-              onChange={handleInputChange}
-              placeholder="Type a message..."
-              className="flex-1 px-3 py-2 border rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-300 border-gray-300 dark:border-gray-600"
-            />
-            <button
-              type="submit"
-              disabled={!connected || !newMessage.trim()}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded disabled:bg-gray-300 dark:disabled:bg-gray-600"
-            >
-              Send
+      {/* Left Sidebar */}
+      <aside className="w-full md:w-1/3 lg:w-1/4 bg-[#1E1333] text-white p-4 overflow-y-auto">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold">Chats</h2>
+          <div className="flex space-x-2">
+            <button onClick={() => setShowUserSearch(true)} className="text-purple-300 hover:text-white" title="New Chat">
+              <UserPlus size={18} />
             </button>
-          </form>
-        </>
-      ) : (
-        <div className="flex items-center justify-center flex-1 text-gray-400 dark:text-gray-500">
-          Select a conversation to start chatting
+            <button onClick={() => setShowCreateGroup(true)} className="text-purple-300 hover:text-white" title="New Group">
+              <Users size={18} />
+            </button>
+          </div>
         </div>
-      )}
-    </main>
 
-    {/* Group Modal */}
+        {showUserSearch && (
+          <div className="mb-4">
+            <div className="flex items-center border rounded px-2 py-1 bg-[#2E1E4D] border-purple-500">
+              <Search className="mr-2 text-purple-300" size={16} />
+              <input
+                value={userSearchQuery}
+                onChange={(e) => {
+                  setUserSearchQuery(e.target.value);
+                  searchUsers(e.target.value, setUserSearchResults);
+                }}
+                placeholder="Search users..."
+                className="flex-1 bg-transparent text-white placeholder-purple-300 outline-none"
+              />
+              <X onClick={() => setShowUserSearch(false)} className="cursor-pointer text-purple-300" size={16} />
+            </div>
+            <div className="mt-2 space-y-1">
+              {userSearchResults.map((u) => (
+                <div
+                  key={u._id}
+                  onClick={() => startDirectChat(u)}
+                  className="cursor-pointer px-3 py-1 rounded hover:bg-purple-800"
+                >
+                  {u.username}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="bg-gray-900 p-4 rounded-md">
+  {conversations.map((c) => (
+    <div
+      key={c._id}
+      onClick={() => setActiveConversation(c)}
+      className={`p-3 rounded-md cursor-pointer hover:bg-purple-800 ${
+        activeConversation?._id === c._id ? 'bg-purple-600 font-semibold' : ''
+      }`}
+    >
+      <div className="text-sm">
+        {c.type === 'group' ? c.name : c._id.username}
+      </div>
+      <div className="text-xs text-purple-200 truncate">
+        {c.lastMessage?.content || 'No messages'}
+      </div>
+    </div>
+  ))}
+</div>
+
+
+
+
+
+      
+      </aside>
+
+      {/* Main Chat */}
+      <main className="flex-1 flex flex-col bg-[#EAE6F7] text-gray-900 transition-all">
+        {activeConversation ? (
+          <>
+            <header className="px-4 py-2 bg-white border-b border-gray-300 flex justify-between items-center">
+              <h4 className="text-md font-semibold">
+                {activeConversation.type === 'group' ? activeConversation.name : activeConversation._id.username}
+              </h4>
+              <span className="text-sm text-gray-500">{renderOnlineStatus()}</span>
+            </header>
+
+            <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2">
+              {messages.map((msg) => (
+                <div
+                  key={msg._id}
+                  className={`max-w-sm p-2 rounded-xl ${
+                    msg.sender._id === user._id
+                      ? 'bg-[#5C3DAC] text-white ml-auto'
+                      : 'bg-white text-gray-800'
+                  }`}
+                >
+                  {activeConversation.type === 'group' && msg.sender._id !== user._id && (
+                    <div className="text-xs font-bold">{msg.sender.username}</div>
+                  )}
+                  <div>{msg.content}</div>
+                  <div className="text-[10px] mt-1 text-right">{formatTime(msg.createdAt)}</div>
+                </div>
+              ))}
+              {isTyping && <div className="text-sm text-purple-600 italic">Typing...</div>}
+              <div ref={messagesEndRef} />
+            </div>
+
+            <form
+              onSubmit={handleSendMessage}
+              className="flex gap-2 px-4 py-3 border-t bg-white border-gray-300"
+            >
+
+              
+              <input
+                value={newMessage}
+                onChange={handleInputChange}
+                placeholder="Type a message..."
+                className="flex-1 px-3 py-2 border rounded-xl bg-gray-100 text-gray-900 placeholder-gray-500 border-gray-300"
+              />
+              <button
+                type="submit"
+                disabled={!connected || !newMessage.trim()}
+                className="bg-[#5C3DAC] hover:bg-[#4A2E8E] text-white px-4 py-2 rounded-xl disabled:bg-gray-300"
+              >
+                Send
+              </button>
+            </form>
+          </>
+        ) : (
+          <div className="flex items-center justify-center flex-1 text-gray-400">
+            Select a conversation to start chatting
+          </div>
+        )}
+      </main>
+       {/* Group Modal */}
     {showCreateGroup && (
       <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
         <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg w-full max-w-md p-6 border border-gray-300 dark:border-gray-700">
@@ -399,6 +411,11 @@ return (
       </div>
     )}
   </div>
-);
-}
+    
+  );
+};
+
 export default Chat;
+
+
+// src/pages/Chat.jsx
